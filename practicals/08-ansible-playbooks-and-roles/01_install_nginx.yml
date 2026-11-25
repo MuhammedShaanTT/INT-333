@@ -1,0 +1,23 @@
+---
+- name: Install and start nginx on web servers
+  hosts: web
+  become: true
+
+  tasks:
+    - name: Install nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+        update_cache: true
+
+    - name: Ensure nginx is running and enabled
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: Deploy a simple landing page
+      ansible.builtin.copy:
+        content: "<h1>Deployed by Ansible on {{ inventory_hostname }}</h1>\n"
+        dest: /var/www/html/index.html
+        mode: "0644"

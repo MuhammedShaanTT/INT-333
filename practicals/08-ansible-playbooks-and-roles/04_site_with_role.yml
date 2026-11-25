@@ -1,0 +1,8 @@
+---
+- name: Configure web servers using the webserver role
+  hosts: web
+  become: true
+  roles:
+    - role: webserver
+      vars:
+        http_port: 8082

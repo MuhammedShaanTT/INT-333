@@ -1,0 +1,18 @@
+---
+# Create the encrypted file first:   ansible-vault create secrets.yml
+# with content:                       db_password: "S3cret!"
+- name: Use a vault-encrypted variable
+  hosts: db
+  become: true
+  vars_files:
+    - secrets.yml
+
+  tasks:
+    - name: Write a config file containing the secret (mode 0600)
+      ansible.builtin.copy:
+        dest: /etc/app_db.conf
+        content: "password={{ db_password }}\n"
+        owner: root
+        group: root
+        mode: "0600"
+      no_log: true          # keeps the secret out of the console output

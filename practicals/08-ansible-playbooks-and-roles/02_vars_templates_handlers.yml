@@ -1,0 +1,70 @@
+---
+- name: Web server with variables, template and handler
+  hosts: web
+  become: true
+  vars:
+    http_port: 8080
+    site_title: "INT333 Lab"
+    packages:
+      - nginx
+      - curl
+      - git
+
+  tasks:
+    - name: Install packages
+      ansible.builtin.apt:
+        name: "{{ packages }}"
+        state: present
+        update_cache: true
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Create web root
+      ansible.builtin.file:
+        path: /var/www/lab
+        state: directory
+        mode: "0755"
+
+    - name: Render index page from template
+      ansible.builtin.template:
+        src: templates/index.html.j2
+        dest: /var/www/lab/index.html
+        mode: "0644"
+      notify: Reload nginx
+
+    - name: Configure nginx site
+      ansible.builtin.copy:
+        dest: /etc/nginx/conf.d/lab.conf
+        content: |
+          server {
+            listen {{ http_port }};
+            root /var/www/lab;
+            index index.html;
+          }
+        mode: "0644"
+      notify: Restart nginx
+
+    - name: Make sure nginx is running
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: Test the site
+      ansible.builtin.uri:
+        url: "http://localhost:{{ http_port }}"
+        return_content: false
+      register: site_check
+      retries: 3
+      delay: 2
+      until: site_check.status == 200
+
+  handlers:
+    - name: Restart nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
+
+    - name: Reload nginx
+      ansible.builtin.service:
+        name: nginx
+        state: reloaded

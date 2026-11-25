@@ -1,0 +1,32 @@
+# -*- mode: ruby -*-
+# 3-node lab used by all practicals:
+#   control  192.168.56.10  -> Puppet server, Nagios server, Ansible control node
+#   node1    192.168.56.11  -> managed node (Puppet agent / NRPE / Ansible target)
+#   node2    192.168.56.12  -> managed node
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/jammy64"
+
+  nodes = {
+    "control" => { ip: "192.168.56.10", mem: 3072, cpus: 2 },
+    "node1"   => { ip: "192.168.56.11", mem: 1024, cpus: 1 },
+    "node2"   => { ip: "192.168.56.12", mem: 1024, cpus: 1 },
+  }
+
+  nodes.each do |name, cfg|
+    config.vm.define name do |m|
+      m.vm.hostname = name
+      m.vm.network "private_network", ip: cfg[:ip]
+      m.vm.provider "virtualbox" do |vb|
+        vb.name   = "int333-#{name}"
+        vb.memory = cfg[:mem]
+        vb.cpus   = cfg[:cpus]
+      end
+      m.vm.provision "shell", inline: <<-SHELL
+        echo "192.168.56.10 control puppet" >> /etc/hosts
+        echo "192.168.56.11 node1"          >> /etc/hosts
+        echo "192.168.56.12 node2"          >> /etc/hosts
+        apt-get update -y
+      SHELL
+    end
+  end
+end

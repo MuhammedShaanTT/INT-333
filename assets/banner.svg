@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" role="img" aria-label="INT333 DevOps Advance Configuration Management">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#1e3a8a"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#a78bfa"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="300" rx="24" fill="url(#bg)"/>
+  <g opacity="0.08" stroke="#fff" stroke-width="1">
+    <path d="M0 60H1200M0 120H1200M0 180H1200M0 240H1200"/>
+    <path d="M100 0V300M300 0V300M500 0V300M700 0V300M900 0V300M1100 0V300"/>
+  </g>
+  <text x="70" y="115" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="30" fill="#94a3b8" letter-spacing="6">LOVELY PROFESSIONAL UNIVERSITY</text>
+  <text x="70" y="185" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="68" font-weight="700" fill="url(#accent)">INT333 · DevOps</text>
+  <text x="70" y="235" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="30" fill="#e2e8f0">Advance Configuration Management — Notes &amp; Practicals</text>
+  <g font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="22" font-weight="600">
+    <rect x="860" y="90" width="270" height="46" rx="23" fill="#f59e0b"/><text x="995" y="121" text-anchor="middle" fill="#1c1917">Puppet</text>
+    <rect x="860" y="150" width="270" height="46" rx="23" fill="#10b981"/><text x="995" y="181" text-anchor="middle" fill="#052e16">Nagios</text>
+    <rect x="860" y="210" width="270" height="46" rx="23" fill="#ef4444"/><text x="995" y="241" text-anchor="middle" fill="#fff">Ansible</text>
+  </g>
+</svg>

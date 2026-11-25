@@ -1,0 +1,8 @@
+<%- | String $owner, String $course | -%>
+=====================================================
+ Host   : <%= $facts['networking']['fqdn'] %>
+ OS     : <%= $facts['os']['name'] %> <%= $facts['os']['release']['full'] %>
+ Course : <%= $course %>
+ Owner  : <%= $owner %>
+ Managed by Puppet — manual changes will be overwritten
+=====================================================

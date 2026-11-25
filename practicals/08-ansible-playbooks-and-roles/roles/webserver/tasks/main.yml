@@ -1,0 +1,25 @@
+---
+- name: Install web packages
+  ansible.builtin.apt:
+    name: "{{ web_packages }}"
+    state: present
+    update_cache: true
+
+- name: Deploy site configuration
+  ansible.builtin.template:
+    src: site.conf.j2
+    dest: /etc/nginx/conf.d/role_site.conf
+    mode: "0644"
+  notify: Restart nginx
+
+- name: Deploy index page
+  ansible.builtin.template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+    mode: "0644"
+
+- name: Ensure nginx is running
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: true
